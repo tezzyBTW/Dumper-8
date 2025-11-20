@@ -198,8 +198,8 @@ void DSGen::dump()
 
 		if(offsetFile){
 			nlohmann::json credit;
-			credit["dumper_used"] = "Dumper-7";
-			credit["dumper_link"] = "https://github.com/Encryqed/Dumper-7";
+			credit["dumper_used"] = "Dumper-8";
+			credit["dumper_link"] = "https://github.com/tezzyBTW/Dumper-8";
 			j["credit"] = credit;
 		}
 

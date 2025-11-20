@@ -6,16 +6,12 @@
 #include <utility>
 #include <array>
 
-// Tables taken from the llvm-project repository on github
-// LLVMs license: https://llvm.org/LICENSE.txt
-
 using UnicodeCharRange = std::pair<char32_t, char32_t>;
 
 template<uint32_t Size>
 class UnicodeRangeTable
 {
 public:
-    /* Accessor functions to guarantee XID_Continue checks also check XID_Start, as ranges already contained by XID_Start aren't dumplicated into XID_Continue. */
     friend constexpr bool IsUnicodeCharXIDStart(char32_t Character);
     friend constexpr bool IsUnicodeCharXIDContinue(char32_t Character);
     friend constexpr bool IsUnicodeCharXIDContinueWithoutXIDStart(char32_t Character);
@@ -30,7 +26,6 @@ public:
         std::copy_n(Ranges, Size, std::begin(CharRanges));
     }
 
-    /* Restrict access to this function to friend functions to guarantee checks for XID_Continue also check XID_Start */
 private:
     constexpr bool Contains(char32_t Character) const
     {
@@ -40,8 +35,6 @@ private:
     }
 };
 
-
-// Unicode 15.1 XID_Start
 constexpr UnicodeCharRange XIDStartRangesData[] = {
     { 0x0041, 0x005A },   { 0x0061, 0x007A },   { 0x00AA, 0x00AA },
     { 0x00B5, 0x00B5 },   { 0x00BA, 0x00BA },   { 0x00C0, 0x00D6 },
@@ -401,22 +394,18 @@ constexpr UnicodeCharRange XIDContinueRangesData[] = {
     { 0x1E950, 0x1E959 }, { 0x1FBF0, 0x1FBF9 }, { 0xE0100, 0xE01EF },
 };
 
-// Create objects with automatic size calculation
 constexpr UnicodeRangeTable XIDStartRanges(XIDStartRangesData);
 constexpr UnicodeRangeTable XIDContinueRanges(XIDContinueRangesData);
 
-/* Checks a character for the XID_Start property. XID_Start -> valid start character for a C++ name. */
 constexpr inline bool IsUnicodeCharXIDStart(char32_t Character)
 {
     return XIDStartRanges.Contains(Character);
 }
 
-/* Checks a character for the XID_Continue property.  XID_Continue -> valid followup (2nd or later) character for a C++ name. */
 constexpr bool IsUnicodeCharXIDContinue(char32_t Character)
 {
     return XIDStartRanges.Contains(Character) || XIDContinueRanges.Contains(Character);
 }
-/* Checks if a character has XID_Continue, but not XID_Start. */
 constexpr bool IsUnicodeCharXIDContinueWithoutXIDStart(char32_t Character)
 {
     return XIDContinueRanges.Contains(Character);

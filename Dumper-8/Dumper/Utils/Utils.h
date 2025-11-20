@@ -7,8 +7,6 @@
 #include <algorithm>
 #include <functional>
 
-
-/* Credits: https://en.cppreference.com/w/cpp/string/byte/tolower */
 inline std::string str_tolower(std::string S)
 {
 	std::transform(S.begin(), S.end(), S.begin(), [](unsigned char C) { return std::tolower(C); });

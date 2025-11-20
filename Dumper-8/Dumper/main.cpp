@@ -3,12 +3,10 @@
 #include <iostream>
 #include <chrono>
 #include <fstream>
-
 #include "Generators/CppGenerator.h"
 #include "Generators/MappingGenerator.h"
 #include "Generators/IDAMappingGenerator.h"
 #include "Generators/DumpspaceGenerator.h"
-
 #include "Generators/Generator.h"
 
 
@@ -36,7 +34,6 @@ DWORD MainThread(HMODULE Module)
 
 	if (Settings::Generator::GameName.empty() && Settings::Generator::GameVersion.empty())
 	{
-		// Only Possible in Main()
 		FString Name;
 		FString Version;
 		UEClass Kismet = ObjectArray::FindClassFast("KismetSystemLibrary");
